@@ -5,7 +5,7 @@
 ##             beprovided with the argument pathand defaults to the current  
 ##             path. As it stands it expects immediately after the standard 
 ##             'SweeD_report.' the word 'chrn' where n indicates the chromosome
-##             number. The total number of chromo- somes can be provided by the 
+##             number. The total number of chromosomes can be provided by the 
 ##             argument 'nchr', which defaults to 8. A common part of the file-
 ##             name can be provided with  'common'. A unique population part of 
 ##             the filename can be provided with 'pop'. And finally, an additio-
@@ -48,7 +48,7 @@
 ##              argument maxPkDist. 
 ## peakPlot - plots single peaks in the CLR profile while automatically adjust-
 ##            ing the scale of the plot to contain the entire peak. To choose a
-##            peak provide it is best to provide the 'sig.peak' part of the
+##            peak it is best to provide the 'sig.peak' part of the
 ##            output from the function sigPkGene to the argument 'sigpks'. the
 ##            first column, 'peak.rank' of the 'peak.gene' part of the output 
 ##            from sigPkGenes then provides the indices of the peaks to provide
