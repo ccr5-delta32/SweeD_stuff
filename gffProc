@@ -1,0 +1,66 @@
+#!/usr/bin/env python2
+
+''' Bjorn Pieper. MPIPZ Cologne. April 2016. 
+    This will slightly re-format a gff table to facilitate using
+    it with the SweeDpeakFunctions in R '''
+
+from sys import exit
+from re import search 
+from argparse import ArgumentParser, RawTextHelpFormatter
+
+p = ArgumentParser(prog='gffProc', formatter_class=RawTextHelpFormatter,
+                  description='gffProc prepares a modified gff table to use'+
+                  'with the \'SweeDpeakFunctions\' in R.\nIt will ouput a'+
+                  ' file with the \'.tbl\' appended to the original name.\n'+
+                  '\'.\', \'+\', and \'-\' found in gff are changed into'+
+                  ' \'dot\', \'plus\', \'minus\', respectively')
+p.add_argument('gff', help='gff file to work on')
+p.add_argument('-p', metavar='gene_prefix', help='common part of gene names'+
+               'found after \'ID=\' in the description field of the gff',
+               required=True)
+args = p.parse_args()
+
+GFF = [x.split('\t') for x in open(args.gff).read().split('\r\n')][0:-1]
+gene = []
+desc = []
+part = []
+for GENE in GFF:
+    
+    for g in range(len(GENE)): 
+        if GENE[g] == '.':
+            GENE[g] = 'dot'
+        elif GENE[g] == '-':
+            GENE[g] = 'minus'
+        elif GENE[g] == '+':
+            GENE[g] = 'plus'
+    
+    tmp0 = search(r'ID=('+args.p+'\d+)', GENE[-1])
+    tmp1 = search(r"Description=(.+)", GENE[-1])
+    if tmp0:
+        gene.append(tmp0.groups(1)[0])
+    else:
+        gene.append(None)
+    if tmp1:
+        current = tmp1.groups(1)[0]
+    desc.append(current)
+
+    if GENE[2] == 'gene' or GENE[2] == 'mRNA':
+        part.append(GENE[2])
+    elif GENE[2] == 'exon' or GENE[2] == 'CDS':
+        tmp2 = search(r"_(.+);", GENE[-1])
+        part.append(tmp2.groups(1)[0])
+    else:
+        part.append(None)
+
+with open(args.gff.split('/')[-1:][0] + '.tbl', 'wb') as OUT:
+    OUT.write('\t'.join(['seqname', 'source', 'feature', 'start', 'end',\
+                         'score', 'strand', 'frame', 'gene', 'annotation']) +\
+              '\n')
+    for i in range(len(GFF)):
+        OUT.write('\t'.join([GFF[i][0], GFF[i][1], part[i]] +\
+                            [GFF[i][j] for j in range(3, 8)] +\
+                            [gene[i],desc[i]]) + '\n') 
+
+
+
+
