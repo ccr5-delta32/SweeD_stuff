@@ -16,7 +16,7 @@ loadSweeD - returns a single data structure from independent SweeD
                  'SweeD_report.' + 'chrn' + 'common' + 'pop' + 'ext' 
             Depending on SweeD output format the number of lines to skip 
             before expecting the data can be provided with the argument 
-            'skip'. 
+            'skip'. \n
 splits - takes the output of loadSweeD as input and returns the cummu-
          lative positions that delineate the different chromosomes.
 sweedPeaks - takes the output of loadSweeD as input and detects peaks in 
