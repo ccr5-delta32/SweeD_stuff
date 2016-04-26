@@ -199,8 +199,8 @@ sigPkGenes <- function(clr, pks, gff, cutoff=0.995, thr_meth='peak',
   for ( chr in 1:8 ) {
     tpeak <- sigpeak[which(sigpeak$chromosome == paste('chr', chr, sep='')),]
     if ( length(tpeak[,1]) > 0 ) {
-      tgff <- gff[which(gff$seqname == paste('chr', chr, sep='') & 
-                        gff$feature == 'gene'),]
+      tgff <- gff[which(regexpr(paste('chr', chr, sep=''), gff$seqname, 
+                                ignore.case=TRUE)==TRUE & gff$feature=='gene'),]
       for ( i in 1:length(tpeak[,1]) ) {
         select <- tgff[which(abs((tgff$start-maxPkDist) - tpeak$Position[i]) <= 
                              maxPkDist | 
