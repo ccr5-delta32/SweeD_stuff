@@ -289,7 +289,7 @@ peakPlot <- function(pk, pks, sigpks=pks, clr, gff, thr, thr_meth='peak',
   clr.sub <- clr[which(clr$chromosome == sigpks$chromosome[pk] &
                        clr$Position >= (sigpks$Position[pk] - pspan) &
                        clr$Position <= (sigpks$Position[pk] + pspan)),] 
-  gff.sub <- gff[which(gff$seqname == sigpks$chromosome[pk] &
+  gff.sub <- gff[which(tolower(gff$seqname) == tolower(sigpks$chromosome[pk]) &
                        (gff$start >= (sigpks$Position[pk] - pspan) |
                         gff$end >= (sigpks$Position[pk] - pspan)) &
                        (gff$end <= (sigpks$Position[pk] + pspan) |
