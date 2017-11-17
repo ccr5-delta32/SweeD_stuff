@@ -37,18 +37,18 @@ for GENE in GFF:
     tmp0 = search(r'ID=('+args.p+'\d+)', GENE[-1])
     tmp1 = search(r"Description=(.+)", GENE[-1])
     if tmp0:
-        gene.append(tmp0.groups(1)[0])
+        gene.append(tmp0.group(1))
     else:
         gene.append(None)
     if tmp1:
-        current = tmp1.groups(1)[0]
+        current = tmp1.group(1).split(';')[0]
     desc.append(current)
 
     if GENE[2] == 'gene' or GENE[2] == 'mRNA':
         part.append(GENE[2])
     elif GENE[2] == 'exon' or GENE[2] == 'CDS':
-        tmp2 = search(r"_(.+);", GENE[-1])
-        part.append(tmp2.groups(1)[0])
+        tmp2 = search(r"_(.+)", GENE[-1])
+        part.append(tmp2.group(1))
     else:
         part.append(None)
 
